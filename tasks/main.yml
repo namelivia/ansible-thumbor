@@ -1,0 +1,44 @@
+---
+- name: Create data volume
+  docker_volume:
+    name: "data"
+
+- name: Create log volume
+  docker_volume:
+    name: "log"
+
+- name: Create app container
+  docker_container:
+    name: "{{application_name}}"
+    image: "minimalcompact/{{application_name}}:latest"
+    restart_policy: "always"
+    memory: "500MB"
+    log_driver: "awslogs"
+    log_options:
+        awslogs-region: "{{cloudwatch_region}}"
+        awslogs-group: "{{cloudwatch_log_group}}"
+        awslogs-stream: "{{application_name}}"
+    exposed_ports:
+      - "80"
+    volumes:
+      - data:/data
+      - logs:/logs
+    env:
+      VIRTUAL_HOST: "{{ domain_name }}"
+      LETSENCRYPT_HOST: "{{ domain_name }}"
+      VIRTUAL_PORT: "80"
+      # THUMBOR_NUM_PROCESSES control how many processes run inside the container
+      # Normally this is set in connection with the number of CPU cores
+      # Note however that you can also use the docker-compose scale option to dynamically
+      # scale your thumbor instances
+      #THUMBOR_NUM_PROCESSES: "4"
+      # this would allow CORS from any origin (you can restrict to specific origins if you want)
+      CORS_ALLOW_ORIGIN: "*"
+      # returns a webp image if browser Accept headers match
+      AUTO_WEBP: "True"
+      # nginx-proxy does caching automatically, so no need to store the result storage cache
+      # (this greatly speeds up and saves on CPU)
+      RESULT_STORAGE: "thumbor.result_storages.file_storage"
+      RESULT_STORAGE_STORES_UNSAFE: "True"
+      STORAGE: "thumbor.storages.file_storage"
+      UPLOAD_PHOTO_STORAGE: "thumbor.result_storages.file_storage"
