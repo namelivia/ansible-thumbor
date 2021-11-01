@@ -17,3 +17,4 @@ roles:
 ## Required variables
  - `cloudwatch_region` Cloudwatch region to send the logs to.
  - `cloudwatch_log_group` Cloudwatch log group to send the logs to.
+ - `domain_name` Domain name in which thumbor will be served from.
