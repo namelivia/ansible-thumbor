@@ -11,7 +11,7 @@ collections:
   - community.docker
 
 roles:
-  - src: https://github.com/namelivia/namelivia.thumbor
+  - src: https://github.com/namelivia/ansible-thumbor
 ```
 
 ## Required variables
