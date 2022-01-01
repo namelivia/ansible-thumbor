@@ -19,6 +19,7 @@
   docker_container:
     name: "{{ application_name }}"
     image: "minimalcompact/{{ application_name }}:latest"
+    cleanup: true
     restart_policy: "always"
     memory: "500MB"
     log_driver: "awslogs"
