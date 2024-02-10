@@ -1,4 +1,5 @@
 galaxy_info:
+  namespace: namelivia
   role_name: thumbor
   author: José Ignacio Amelivia Santiago <jignacio.amelivia@gmail.com>
   description: Ansible role I use to install and configure thumbor
